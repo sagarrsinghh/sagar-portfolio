@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+html.lenis, html {
+  height: auto !important;
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin:0;
+  padding:0;
+
+  /* clip does NOT create a new scroll container, so position:sticky works.
+     hidden would break sticky by creating a new overflow context. */
+  overflow-x: clip;
+
+  background:black;
+  color:white;
+
+  font-family:Arial, Helvetica, sans-serif;
+
+  cursor:none;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:black;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#dc2626;
+  border-radius:20px;
+}
+
+
+/* CAMERA SHAKE */
+
+@keyframes shake {
+
+  0%{
+    transform:translate(0px,0px);
+  }
+
+  20%{
+    transform:translate(2px,-2px);
+  }
+
+  40%{
+    transform:translate(-2px,2px);
+  }
+
+  60%{
+    transform:translate(2px,1px);
+  }
+
+  80%{
+    transform:translate(-1px,-2px);
+  }
+
+  100%{
+    transform:translate(0px,0px);
+  }
+
+}
+
+
+/* LIGHTNING FLASH */
+
+@keyframes flash {
+
+  0%{
+    opacity:0;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+  }
+
+}
+
+
+/* GLOW PULSE */
+
+@keyframes glowPulse {
+
+  0%{
+    box-shadow:0 0 10px rgba(255,0,0,0.3);
+  }
+
+  50%{
+    box-shadow:0 0 35px rgba(255,0,0,0.8);
+  }
+
+  100%{
+    box-shadow:0 0 10px rgba(255,0,0,0.3);
+  }
+
+}
+
+
+/* DIGITAL EQUALIZER AUDIO ANIMATION */
+@keyframes equalizerPulse {
+  0%, 100% {
+    transform: scaleY(0.15);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* HELPER CLASSES */
+.equalizer-bar {
+  animation: equalizerPulse 1.2s infinite ease-in-out;
+  transform-origin: bottom;
+}
+
+
+/* BUTTON SHIMMER */
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
