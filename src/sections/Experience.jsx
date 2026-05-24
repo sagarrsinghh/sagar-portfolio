@@ -85,7 +85,7 @@ function ExperienceModal({ experience, isOpen, onClose }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9990]"
           />
 
           {/* Modal */}
@@ -104,7 +104,7 @@ function ExperienceModal({ experience, isOpen, onClose }) {
               w-[90%] max-w-3xl
               max-h-[90vh]
               overflow-hidden
-              z-50
+              z-[9995]
               rounded-[40px]
               bg-gradient-to-br from-white/[0.08] to-white/[0.03] backdrop-blur-3xl
               border border-white/20
