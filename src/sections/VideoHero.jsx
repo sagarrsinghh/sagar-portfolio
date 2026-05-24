@@ -13,7 +13,7 @@ const VideoHero = ({ onWatchShowreelClick }) => {
       className="relative min-h-screen w-full bg-neutral-950 flex flex-col justify-center items-center px-6 md:px-12 py-24 overflow-hidden border-b border-neutral-900"
     >
       {/* CAMERA VIEWFINDER HUD INTERACTION BOUNDARY */}
-      <div className="absolute inset-8 border border-white/5 pointer-events-none select-none z-20">
+      <div className="absolute inset-4 md:inset-8 border border-white/5 pointer-events-none select-none z-20">
         {/* Corners */}
         <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-white/20"></div>
         <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-white/20"></div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useTransparentSpider } from "../hooks/useTransparentSpider";
 
@@ -6,8 +6,22 @@ const CustomCursor = () => {
   const transparentSpider = useTransparentSpider();
   const cursorRef = useRef(null);
   const ringRef = useRef(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    const checkTouch = () => {
+      return (
+        window.matchMedia("(pointer: coarse)").matches ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0
+      );
+    };
+
+    if (checkTouch()) {
+      setIsTouchDevice(true);
+      return;
+    }
+
     // Set initial offset using GSAP to prevent style collisions
     gsap.set(cursorRef.current, { xPercent: -50, yPercent: -50 });
     gsap.set(ringRef.current, { xPercent: -50, yPercent: -50 });
@@ -51,6 +65,8 @@ const CustomCursor = () => {
       window.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
+
+  if (isTouchDevice) return null;
 
   return (
     <>

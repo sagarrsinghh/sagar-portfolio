@@ -26,8 +26,14 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
   const [windowHeight, setWindowHeight] = useState(typeof window !== "undefined" ? window.innerHeight : 800);
   const [isAtTop, setIsAtTop] = useState(true);
   const [pullProgress, setPullProgress] = useState(0);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    setIsTouchDevice(
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0
+    );
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
     };
@@ -238,7 +244,7 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
             }
           }}
           onClick={onTogglePortfolio}
-          className="absolute right-14 top-8 pointer-events-auto cursor-pointer flex flex-col items-end z-50 group select-none"
+          className="absolute right-14 top-8 pointer-events-auto cursor-pointer hidden md:flex flex-col items-end z-50 group select-none"
         >
           <div className="bg-black/95 backdrop-blur-md border border-red-500/40 rounded-xl p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] hover:shadow-[0_0_35px_rgba(239,68,68,0.5)] hover:border-red-500/80 transition-all duration-300 flex flex-col items-end gap-2 font-mono tracking-wider min-w-[210px] border-r-4 border-r-red-500">
 
@@ -297,7 +303,7 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
             scale: hudScale,
             x: hudX,
           }}
-          className="absolute right-14 top-8 pointer-events-none select-none flex flex-col items-end z-50"
+          className="absolute right-14 top-8 pointer-events-none select-none hidden md:flex flex-col items-end z-50"
         >
           <div className="bg-black/90 backdrop-blur-md border border-red-500/40 rounded-xl p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] flex flex-col items-end gap-1.5 font-mono tracking-wider min-w-[210px]">
             <div className="flex items-center gap-1.5 text-[9px] font-black text-red-500 uppercase animate-pulse">
@@ -355,7 +361,7 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
 
       {/* SWINGING SPIDER-MAN CONTAINER */}
       <motion.div
-        drag={isAtTop ? "y" : "x"}
+        drag={isTouchDevice ? false : (isAtTop ? "y" : "x")}
         dragConstraints={isAtTop ? { top: 60, bottom: 260 } : { left: -90, right: 90 }}
         dragElastic={isAtTop ? 0.15 : 0.35}
         onDragStart={handleDragStart}

@@ -1,17 +1,30 @@
+import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 
 import spidermanFace from "../assets/images/spiderman-face.jpg";
 import sagarImage from "../assets/images/sagar.jpg";
 
 const Hero = ({ onTogglePortfolio }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const { scrollY } = useScroll();
 
-  const y = useTransform(
+  const desktopY = useTransform(
     scrollY,
     [0, 1000],
     [0, 250]
   );
+
+  const y = isMobile ? 0 : desktopY;
 
   // Motion values for hover reveal coordinates and radius
   const mouseX = useMotionValue(240);

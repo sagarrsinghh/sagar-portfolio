@@ -49,7 +49,14 @@ const WebShooter = () => {
 
   useEffect(() => {
     const handleGlobalClick = (e) => {
-      // Don't trigger if clicked on an interactive control that does not want webs (optional)
+      // Prevent triggering on touch/coarse devices to avoid web shooter sound/visuals during scrolling
+      if (
+        window.matchMedia("(pointer: coarse)").matches ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0
+      ) {
+        return;
+      }
 
       const id = Date.now() + Math.random();
       const x = e.clientX;

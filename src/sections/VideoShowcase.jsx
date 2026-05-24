@@ -308,7 +308,7 @@ const VideoShowcase = () => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               transition={{ type: "spring", stiffness: 150, damping: 18 }}
-              className="relative w-full max-w-5xl bg-neutral-900 border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.85)]"
+              className="relative w-full max-w-5xl bg-neutral-900 border border-white/10 rounded-2xl overflow-y-auto max-h-[95vh] lg:max-h-none lg:overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.85)]"
               onClick={(e) => e.stopPropagation()} // Stop propagation to avoid closing
             >
               {/* Top info bar */}

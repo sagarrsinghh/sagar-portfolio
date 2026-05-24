@@ -105,11 +105,11 @@ function ProgressDot({ scrollYProgress, index, total }) {
 }
 
 // ── Project card ──
-function ProjectCard({ project, index, transparentSpider, onCardClick }) {
+function ProjectCard({ project, index, transparentSpider, onCardClick, isMobile }) {
   return (
     <motion.div
       onClick={() => onCardClick(project, index)}
-      whileHover={{ scale: 1.05 }}
+      whileHover={isMobile ? { scale: 1.01 } : { scale: 1.05 }}
       className="
         relative group flex flex-col justify-between
         flex-shrink-0
@@ -122,8 +122,10 @@ function ProjectCard({ project, index, transparentSpider, onCardClick }) {
         overflow-hidden
         p-8
         cursor-pointer
+        w-full
+        md:w-[450px]
       "
-      style={{ width: `${CARD_W}px`, minHeight: "480px" }}
+      style={isMobile ? { minHeight: "auto" } : { width: `${CARD_W}px`, minHeight: "480px" }}
     >
       {/* Hover gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -374,6 +376,16 @@ const Projects = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const transparentSpider = useTransparentSpider();
   const targetRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -392,6 +404,130 @@ const Projects = () => {
   // Section height = scroll distance needed for all cards to pass
   // Minimal buffer to eliminate gap - cards finish scrolling right when section ends
   const sectionHeight = `calc(${totalSlide}px + 5vh)`;
+
+  if (isMobile) {
+    return (
+      <>
+      <section
+        id="projects"
+        className="relative bg-transparent py-24 px-6 w-full"
+      >
+        {/* Ambient glow */}
+        <div className="absolute top-1/3 left-1/4 w-[280px] h-[280px] bg-red-600/5 rounded-full blur-[100px] pointer-events-none -z-10" />
+
+        {/* Heading */}
+        <div className="w-full text-center z-20 mb-16 flex-shrink-0">
+          <p className="text-red-500 uppercase tracking-[8px] text-xs font-semibold mb-3">
+            Featured Creations
+          </p>
+          <h2
+            className="text-4xl font-black text-white"
+            style={{ fontFamily: "Orbitron" }}
+          >
+            PROJECT<span className="text-red-600">VERSE</span>
+          </h2>
+        </div>
+
+        {/* Vertical Stack List */}
+        <div className="w-full flex flex-col items-center gap-8 max-w-xl mx-auto">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={index}
+              project={project}
+              index={index}
+              transparentSpider={transparentSpider}
+              onCardClick={(proj, idx) => setSelectedCard({ project: proj, index: idx })}
+              isMobile={true}
+            />
+          ))}
+
+          {/* Outro Card */}
+          <div
+            className="
+              relative group flex flex-col justify-center
+              rounded-[32px] overflow-hidden p-8
+              border border-red-500/20
+              bg-gradient-to-br from-red-950/20 via-black/60 to-black/80
+              backdrop-blur-2xl
+              shadow-[0_8px_40px_0_rgba(180,0,0,0.15)]
+              transition-all duration-500
+              hover:border-red-500/50 hover:shadow-[0_8px_60px_0_rgba(200,0,0,0.3)]
+              w-full
+            "
+            style={{ minHeight: "360px" }}
+          >
+            {/* Web-line decoration */}
+            <svg
+              className="absolute inset-0 w-full h-full opacity-[0.04] pointer-events-none"
+              viewBox="0 0 450 480"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {[0,1,2,3,4,5].map(i => (
+                <line key={i} x1="225" y1="0" x2={i*90} y2="480" stroke="#ef4444" strokeWidth="1"/>
+              ))}
+              {[60,120,180,240,300,360,420].map((y,i) => (
+                <ellipse key={i} cx="225" cy={y} rx={225 - i*5} ry="30" stroke="#ef4444" strokeWidth="1"/>
+              ))}
+            </svg>
+
+            <div className="relative z-10">
+              <p className="text-red-500 uppercase tracking-[6px] text-xs font-semibold mb-6">
+                There's more
+              </p>
+
+              <h2
+                className="text-4xl font-black text-white leading-tight mb-6"
+                style={{ fontFamily: "Orbitron" }}
+              >
+                WANT TO
+                <br />
+                <span className="text-red-500">SEE MORE?</span>
+              </h2>
+
+              <p className="text-gray-400 text-sm leading-relaxed mb-10">
+                I'm constantly building new things. Let's create something extraordinary together.
+              </p>
+
+              <a
+                href="https://github.com/sagarrsinghh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  inline-flex items-center justify-center gap-3
+                  w-full sm:w-auto px-8 py-4
+                  rounded-full
+                  bg-red-600 hover:bg-red-500
+                  text-white
+                  text-sm font-bold tracking-widest uppercase
+                  shadow-[0_0_30px_rgba(239,68,68,0.4)]
+                  hover:shadow-[0_0_50px_rgba(239,68,68,0.7)]
+                  transition-all duration-300
+                  group/btn
+                "
+              >
+                <FiGithub className="w-5 h-5" />
+                View GitHub
+                <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Expanded Modal */}
+      {selectedCard && (
+        <ExpandedModal
+          project={selectedCard.project}
+          index={selectedCard.index}
+          isOpen={!!selectedCard}
+          onClose={() => setSelectedCard(null)}
+          transparentSpider={transparentSpider}
+        />
+      )}
+      </>
+    );
+  }
 
   return (
     <>

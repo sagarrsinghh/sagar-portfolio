@@ -440,7 +440,7 @@ const VideoStory = () => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.94, y: 25 }}
               transition={{ type: "spring", stiffness: 150, damping: 19 }}
-              className="relative w-full max-w-5xl bg-neutral-900 border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_90px_rgba(255,0,0,0.08)] text-left flex flex-col lg:flex-row justify-between min-h-[500px]"
+              className="relative w-full max-w-5xl bg-neutral-900 border border-white/10 rounded-2xl overflow-y-auto max-h-[90vh] lg:max-h-none lg:overflow-hidden shadow-[0_0_90px_rgba(255,0,0,0.08)] text-left flex flex-col lg:flex-row justify-between min-h-[500px]"
               onClick={(e) => e.stopPropagation()}
             >
               

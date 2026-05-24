@@ -171,7 +171,7 @@ const About = () => {
 
           {/* CARD 2 */}
           <GlassCard
-            className="p-8 rounded-[30px] mt-12"
+            className="p-8 rounded-[30px] md:mt-12"
             yOffset={0}
             delay={0}
           >
@@ -223,7 +223,7 @@ const About = () => {
 
           {/* CARD 4 */}
           <GlassCard
-            className="p-8 rounded-[30px] mt-12"
+            className="p-8 rounded-[30px] md:mt-12"
             yOffset={0}
             delay={0}
           >
