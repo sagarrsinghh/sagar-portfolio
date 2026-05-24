@@ -28,6 +28,10 @@ import VideoShowcase from "./sections/VideoShowcase";
 import VideoSkills from "./sections/VideoSkills";
 import VideoStory from "./sections/VideoStory";
 
+// Vercel Insights & Analytics
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
+
 
 function App() {
 
@@ -105,6 +109,9 @@ function App() {
       {!loading && (
 
         <>
+          {/* Vercel Performance Tracking */}
+          <SpeedInsights />
+          <Analytics />
 
           {/* CUSTOM CURSOR */}
           <CustomCursor />
