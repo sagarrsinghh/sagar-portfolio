@@ -78,17 +78,6 @@ const skills = [
 ];
 
 const Skills = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   return (
 
     <section
@@ -198,187 +187,173 @@ const Skills = () => {
 
       </motion.div>
 
-      {/* MOBILE SKILLS GRIDFallback */}
-      {isMobile ? (
-        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.85 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05 }}
-              className="relative group p-5 rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-red-500/20 text-center shadow-[0_0_15px_rgba(255,0,0,0.06)] hover:border-red-500/60 hover:shadow-[0_0_25px_rgba(255,0,0,0.25)] transition-all duration-300 cursor-default"
-            >
-              {/* Internal glow spot */}
-              <div className="absolute inset-0 rounded-2xl bg-red-600/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              
-              <span className="relative z-10 text-xs font-bold text-gray-300 group-hover:text-white font-mono tracking-widest uppercase">
-                {skill.name}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        /* DESKTOP WEB CONTAINER */
-        <div
-          className="
-            relative
-            z-10
+      {/* RESPONSIVE SKILLS WEB CONTAINER */}
+      <div
+        className="
+          relative
+          z-10
 
+          w-full
+          h-[500px]
+          sm:h-[600px]
+          md:h-[720px]
+        "
+      >
+
+        {/* WEB LINES */}
+        <svg
+          className="
+            absolute
+            inset-0
             w-full
-            h-[700px]
+            h-full
           "
         >
 
-          {/* WEB LINES */}
-          <svg
-            className="
-              absolute
-              inset-0
-              w-full
-              h-full
-            "
-          >
-
-            {skills.map((skill, index) => (
-
-              skills.map((target, targetIndex) => {
-
-                if (index === targetIndex) return null;
-
-                return (
-
-                  <line
-
-                    key={`${index}-${targetIndex}`}
-
-                    x1={skill.x}
-                    y1={skill.y}
-
-                    x2={target.x}
-                    y2={target.y}
-
-                    stroke="rgba(255,0,0,0.12)"
-                    strokeWidth="1"
-
-                  />
-
-                );
-
-              })
-
-            ))}
-
-          </svg>
-
-          {/* SKILL NODES */}
           {skills.map((skill, index) => (
 
-            <motion.div
+            skills.map((target, targetIndex) => {
 
-              key={index}
+              if (index === targetIndex) return null;
 
-              initial={{
-                opacity: 0,
-                scale: 0,
-              }}
+              return (
 
-              whileInView={{
-                opacity: 1,
-                scale: 1,
-              }}
+                <line
 
-              transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-              }}
+                  key={`${index}-${targetIndex}`}
 
-              viewport={{
-                once: true,
-              }}
+                  x1={skill.x}
+                  y1={skill.y}
 
-              whileHover={{
-                scale: 1.15,
-              }}
+                  x2={target.x}
+                  y2={target.y}
 
-              className="
-                absolute
-                group
-              "
+                  stroke="rgba(255,0,0,0.07)"
+                  strokeWidth="1"
 
-              style={{
-                left: skill.x,
-                top: skill.y,
-                transform: "translate(-50%, -50%)",
-              }}
-            >
+                />
 
-              {/* GLOW */}
-              <div
-                className="
-                  absolute
-                  inset-0
+              );
 
-                  rounded-full
-
-                  bg-red-600/20
-
-                  blur-2xl
-
-                  scale-150
-
-                  opacity-0
-                  group-hover:opacity-100
-
-                  transition-all
-                  duration-500
-                "
-              ></div>
-
-              {/* NODE */}
-              <div
-                className="
-                  relative
-
-                  px-8
-                  py-5
-
-                  rounded-full
-
-                  bg-white/5
-
-                  backdrop-blur-xl
-
-                  border
-                  border-red-500/30
-
-                  text-white
-                  font-semibold
-
-                  tracking-wide
-
-                  shadow-[0_0_25px_rgba(255,0,0,0.15)]
-
-                  hover:border-red-500
-                  hover:shadow-[0_0_40px_rgba(255,0,0,0.4)]
-
-                  transition-all
-                  duration-500
-                "
-              >
-
-                {skill.name}
-
-              </div>
-
-            </motion.div>
+            })
 
           ))}
 
-        </div>
-      )}
+        </svg>
+
+        {/* SKILL NODES */}
+        {skills.map((skill, index) => (
+
+          <motion.div
+
+            key={index}
+
+            initial={{
+              opacity: 0,
+              scale: 0,
+            }}
+
+            whileInView={{
+              opacity: 1,
+              scale: 1,
+            }}
+
+            transition={{
+              duration: 0.6,
+              delay: index * 0.08,
+            }}
+
+            viewport={{
+              once: true,
+            }}
+
+            whileHover={{
+              scale: 1.15,
+            }}
+
+            className="
+              absolute
+              group
+            "
+
+            style={{
+              left: skill.x,
+              top: skill.y,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+
+            {/* GLOW */}
+            <div
+              className="
+                absolute
+                inset-0
+
+                rounded-full
+
+                bg-red-600/20
+
+                blur-2xl
+
+                scale-150
+
+                opacity-0
+                group-hover:opacity-100
+
+                transition-all
+                duration-500
+              "
+            ></div>
+
+            {/* NODE */}
+            <div
+              className="
+                relative
+
+                px-3.5
+                py-2
+                sm:px-5
+                sm:py-2.5
+                md:px-8
+                md:py-5
+
+                rounded-full
+
+                bg-white/5
+
+                backdrop-blur-xl
+
+                border
+                border-red-500/30
+
+                text-[9px]
+                sm:text-[11px]
+                md:text-sm
+                text-white
+                font-semibold
+
+                tracking-wide
+
+                shadow-[0_0_20px_rgba(255,0,0,0.12)]
+
+                hover:border-red-500
+                hover:shadow-[0_0_40px_rgba(255,0,0,0.4)]
+
+                transition-all
+                duration-500
+                whitespace-nowrap
+              "
+            >
+
+              {skill.name}
+
+            </div>
+
+          </motion.div>
+
+        ))}
+
+      </div>
 
     </section>
   );

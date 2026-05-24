@@ -244,18 +244,18 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
             }
           }}
           onClick={onTogglePortfolio}
-          className="absolute right-14 top-8 pointer-events-auto cursor-pointer hidden md:flex flex-col items-end z-50 group select-none"
+          className="absolute right-8 sm:right-14 top-8 pointer-events-auto cursor-pointer flex flex-col items-end z-50 group select-none"
         >
-          <div className="bg-black/95 backdrop-blur-md border border-red-500/40 rounded-xl p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] hover:shadow-[0_0_35px_rgba(239,68,68,0.5)] hover:border-red-500/80 transition-all duration-300 flex flex-col items-end gap-2 font-mono tracking-wider min-w-[210px] border-r-4 border-r-red-500">
+          <div className="bg-black/95 backdrop-blur-md border border-red-500/40 rounded-xl p-2.5 sm:p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] hover:shadow-[0_0_35px_rgba(239,68,68,0.5)] hover:border-red-500/80 transition-all duration-300 flex flex-col items-end gap-1.5 sm:gap-2 font-mono tracking-wider w-[185px] sm:w-[210px] border-r-4 border-r-red-500">
 
             {/* REC label */}
-            <div className="flex items-center gap-1.5 text-[9px] font-black text-red-400 uppercase tracking-widest animate-pulse">
+            <div className="flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-[9px] font-black text-red-400 uppercase tracking-widest animate-pulse">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0"></span>
               <span>[REC] {activePortfolio === "tech" ? "SWING TO CREATIVE" : "SWING TO TECH"}</span>
             </div>
 
             {/* Main action label */}
-            <div className="text-[12px] font-black text-white group-hover:text-red-400 transition-colors duration-300 text-right flex items-center gap-1.5 leading-tight">
+            <div className="text-[10px] sm:text-[12px] font-black text-white group-hover:text-red-400 transition-colors duration-300 text-right flex items-center gap-1 sm:gap-1.5 leading-tight">
               <span>{activePortfolio === "tech" ? "EXPLORE FILM & PHOTO" : "EXPLORE DEV PORTFOLIO"}</span>
               <motion.span
                 animate={{ x: [0, 4, 0] }}
@@ -267,19 +267,19 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
             </div>
 
             {/* Description */}
-            <div className="text-[9px] text-neutral-300 text-right leading-relaxed font-normal mt-0.5">
+            <div className="text-[8px] sm:text-[9px] text-neutral-300 text-right leading-relaxed font-normal mt-0.5">
               {activePortfolio === "tech" ? (
-                <>Pull Spidey down to swing into the <span className="text-red-400 font-semibold">Creative Verse</span></>
+                <>Pull Spidey or tap bubble for <span className="text-red-400 font-semibold">Creative Verse</span></>
               ) : (
-                <>Pull Spidey down to swing back to the <span className="text-red-400 font-semibold">Tech Verse</span></>
+                <>Pull Spidey or tap bubble for <span className="text-red-400 font-semibold">Tech Verse</span></>
               )}
             </div>
 
             <div className="w-full h-px bg-white/8 my-0.5"></div>
 
             {/* Footer hint */}
-            <div className="text-[8px] text-neutral-400 text-right uppercase font-medium tracking-wider">
-              ⚡ Or click this bubble directly
+            <div className="text-[7.5px] sm:text-[8px] text-neutral-400 text-right uppercase font-medium tracking-wider">
+              ⚡ Or tap bubble to swing
             </div>
           </div>
           
@@ -303,14 +303,14 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
             scale: hudScale,
             x: hudX,
           }}
-          className="absolute right-14 top-8 pointer-events-none select-none hidden md:flex flex-col items-end z-50"
+          className="absolute right-8 sm:right-14 top-8 pointer-events-none select-none flex flex-col items-end z-50"
         >
-          <div className="bg-black/90 backdrop-blur-md border border-red-500/40 rounded-xl p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] flex flex-col items-end gap-1.5 font-mono tracking-wider min-w-[210px]">
-            <div className="flex items-center gap-1.5 text-[9px] font-black text-red-500 uppercase animate-pulse">
+          <div className="bg-black/90 backdrop-blur-md border border-red-500/40 rounded-xl p-2.5 sm:p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] flex flex-col items-end gap-1 sm:gap-1.5 font-mono tracking-wider w-[185px] sm:w-[210px]">
+            <div className="flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-[9px] font-black text-red-500 uppercase animate-pulse">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
               <span>[REC] {activePortfolio === "tech" ? "EDIT-VERSE" : "TECH-VERSE"}</span>
             </div>
-            <div className="text-[11px] font-bold text-gray-200 text-right">
+            <div className="text-[10px] sm:text-[11px] font-bold text-gray-200 text-right">
               {pullProgress < 0.95 ? (
                 <>
                   Pull Spidey to <span className="text-red-500 font-black animate-pulse">TRANSMUTE</span>
@@ -361,7 +361,7 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
 
       {/* SWINGING SPIDER-MAN CONTAINER */}
       <motion.div
-        drag={isTouchDevice ? false : (isAtTop ? "y" : "x")}
+        drag={isAtTop ? "y" : "x"}
         dragConstraints={isAtTop ? { top: 60, bottom: 260 } : { left: -90, right: 90 }}
         dragElastic={isAtTop ? 0.15 : 0.35}
         onDragStart={handleDragStart}

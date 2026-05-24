@@ -61,6 +61,29 @@ const Hero = ({ onTogglePortfolio }) => {
     maskRadius.set(0);
   };
 
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches[0]) {
+      const touch = e.touches[0];
+      const rect = e.currentTarget.getBoundingClientRect();
+      mouseX.set(touch.clientX - rect.left);
+      mouseY.set(touch.clientY - rect.top);
+      maskRadius.set(160); // slightly smaller reveal bubble for mobile
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches[0]) {
+      const touch = e.touches[0];
+      const rect = e.currentTarget.getBoundingClientRect();
+      mouseX.set(touch.clientX - rect.left);
+      mouseY.set(touch.clientY - rect.top);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    maskRadius.set(0);
+  };
+
   return (
 
     <section
@@ -149,6 +172,9 @@ const Hero = ({ onTogglePortfolio }) => {
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
 
             <motion.div
