@@ -250,13 +250,13 @@ function ExpandedModal({ project, index, isOpen, onClose, transparentSpider }) {
               flex-col
             "
           >
-            {/* Close button - Fixed absolute in the top-right corner, won't scroll */}
+            {/* Close button - Fixed absolute and positioned lower to clear fixed navbar */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onClose();
               }}
-              className="absolute top-6 right-6 p-2.5 hover:bg-white/10 rounded-full transition-all duration-300 z-[60] cursor-pointer pointer-events-auto"
+              className="absolute top-10 right-10 md:top-12 md:right-12 p-2.5 hover:bg-white/10 rounded-full transition-all duration-300 z-[60] cursor-pointer pointer-events-auto"
               style={{ pointerEvents: "auto" }}
               aria-label="Close modal"
             >
@@ -265,7 +265,7 @@ function ExpandedModal({ project, index, isOpen, onClose, transparentSpider }) {
 
             {/* Scrollable container for modal contents */}
             <div 
-              className="overflow-y-auto pr-2 max-h-[calc(85vh-80px)] mt-4 overscroll-contain"
+              className="overflow-y-auto pr-2 max-h-[calc(85vh-80px)] mt-12 md:mt-14 overscroll-contain"
               style={{ overscrollBehavior: "contain" }}
             >
               {/* Index number */}
