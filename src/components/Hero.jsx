@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 
 import spidermanFace from "../assets/images/spiderman-face.jpg";
@@ -6,6 +6,7 @@ import sagarImage from "../assets/images/sagar.jpg";
 
 const Hero = ({ onTogglePortfolio }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const cardRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -61,28 +62,46 @@ const Hero = ({ onTogglePortfolio }) => {
     maskRadius.set(0);
   };
 
-  const handleTouchStart = (e) => {
-    if (e.touches && e.touches[0]) {
-      const touch = e.touches[0];
-      const rect = e.currentTarget.getBoundingClientRect();
-      mouseX.set(touch.clientX - rect.left);
-      mouseY.set(touch.clientY - rect.top);
-      maskRadius.set(160); // slightly smaller reveal bubble for mobile
-    }
-  };
+  // Touch handlers with raw DOM listeners to enforce passive: false (locks screen scroll during drag)
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
 
-  const handleTouchMove = (e) => {
-    if (e.touches && e.touches[0]) {
-      const touch = e.touches[0];
-      const rect = e.currentTarget.getBoundingClientRect();
-      mouseX.set(touch.clientX - rect.left);
-      mouseY.set(touch.clientY - rect.top);
-    }
-  };
+    const handleTouchStartRaw = (e) => {
+      if (e.touches && e.touches[0]) {
+        e.preventDefault(); // Keep screen frozen, prevent page scroll
+        const touch = e.touches[0];
+        const rect = card.getBoundingClientRect();
+        mouseX.set(touch.clientX - rect.left);
+        mouseY.set(touch.clientY - rect.top);
+        maskRadius.set(160);
+      }
+    };
 
-  const handleTouchEnd = () => {
-    maskRadius.set(0);
-  };
+    const handleTouchMoveRaw = (e) => {
+      if (e.touches && e.touches[0]) {
+        e.preventDefault(); // Keep screen frozen, lock scroll
+        const touch = e.touches[0];
+        const rect = card.getBoundingClientRect();
+        mouseX.set(touch.clientX - rect.left);
+        mouseY.set(touch.clientY - rect.top);
+      }
+    };
+
+    const handleTouchEndRaw = () => {
+      maskRadius.set(0);
+    };
+
+    card.addEventListener("touchstart", handleTouchStartRaw, { passive: false });
+    card.addEventListener("touchmove", handleTouchMoveRaw, { passive: false });
+    card.addEventListener("touchend", handleTouchEndRaw, { passive: true });
+
+    return () => {
+      card.removeEventListener("touchstart", handleTouchStartRaw);
+      card.removeEventListener("touchmove", handleTouchMoveRaw);
+      card.removeEventListener("touchend", handleTouchEndRaw);
+    };
+  }, []);
 
   return (
 
@@ -156,6 +175,7 @@ const Hero = ({ onTogglePortfolio }) => {
           "></div>
 
           <motion.div
+            ref={cardRef}
             className="
               relative
               w-[85vw]
@@ -165,7 +185,9 @@ const Hero = ({ onTogglePortfolio }) => {
               sm:w-[320px]
               sm:h-[420px]
               md:w-[480px]
+              md:max-w-none
               md:h-[75vh]
+              md:max-h-none
               overflow-hidden
               z-10
               cursor-crosshair
@@ -176,9 +198,6 @@ const Hero = ({ onTogglePortfolio }) => {
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
           >
 
             <motion.div

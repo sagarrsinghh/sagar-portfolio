@@ -103,24 +103,36 @@ function ExperienceModal({ experience, isOpen, onClose }) {
               fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
               w-[90%] max-w-3xl
               max-h-[90vh]
-              overflow-y-auto
-              overscroll-contain
+              overflow-hidden
               z-50
               rounded-[40px]
               bg-gradient-to-br from-white/[0.08] to-white/[0.03] backdrop-blur-3xl
               border border-white/20
               shadow-2xl
-              p-12
+              p-8
+              md:p-10
+              flex
+              flex-col
             "
-            style={{ overscrollBehavior: "contain" }}
           >
-            {/* Close button */}
+            {/* Close button - Fixed absolute in the top-right corner, won't scroll */}
             <button
-              onClick={onClose}
-              className="absolute top-6 right-6 p-2 hover:bg-white/10 rounded-full transition-colors z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
+              className="absolute top-6 right-6 p-2.5 hover:bg-white/10 rounded-full transition-all duration-300 z-[60] cursor-pointer pointer-events-auto"
+              style={{ pointerEvents: "auto" }}
+              aria-label="Close modal"
             >
               <FiX className="w-6 h-6 text-white" />
             </button>
+
+            {/* Scrollable container for modal contents */}
+            <div 
+              className="overflow-y-auto pr-2 max-h-[calc(90vh-80px)] mt-4 overscroll-contain"
+              style={{ overscrollBehavior: "contain" }}
+            >
 
             {/* Header */}
             <div className="mb-8">
@@ -195,6 +207,7 @@ function ExperienceModal({ experience, isOpen, onClose }) {
                 ))}
               </div>
             </div>
+          </div>
           </motion.div>
         </>
       )}

@@ -3,6 +3,19 @@ import Lenis from "@studio-freight/lenis";
 
 const SmoothScroll = () => {
   useEffect(() => {
+    const checkTouch = () => {
+      return (
+        window.matchMedia("(pointer: coarse)").matches ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.innerWidth < 768
+      );
+    };
+
+    if (checkTouch()) {
+      return undefined; // Native butter-smooth inertia scroll on mobile touch screens
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       lerp: 0.1,

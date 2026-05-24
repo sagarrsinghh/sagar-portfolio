@@ -238,30 +238,40 @@ function ExpandedModal({ project, index, isOpen, onClose, transparentSpider }) {
               fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
               w-[90%] max-w-2xl
               max-h-[85vh]
-              overflow-y-auto
-              overscroll-contain
+              overflow-hidden
               z-50
               rounded-[40px]
               bg-white/[0.08] backdrop-blur-3xl
               border border-white/20
               shadow-2xl
-              p-10
-              md:p-12
+              p-8
+              md:p-10
+              flex
+              flex-col
             "
-            style={{ overscrollBehavior: "contain" }}
           >
-            {/* Close button */}
+            {/* Close button - Fixed absolute in the top-right corner, won't scroll */}
             <button
-              onClick={onClose}
-              className="absolute top-6 right-6 p-2 hover:bg-white/10 rounded-full transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
+              className="absolute top-6 right-6 p-2.5 hover:bg-white/10 rounded-full transition-all duration-300 z-[60] cursor-pointer pointer-events-auto"
+              style={{ pointerEvents: "auto" }}
+              aria-label="Close modal"
             >
               <FiX className="w-6 h-6 text-white" />
             </button>
 
-            {/* Index number */}
-            <div className="text-7xl font-black text-white/[0.08] mb-6">
-              0{index + 1}
-            </div>
+            {/* Scrollable container for modal contents */}
+            <div 
+              className="overflow-y-auto pr-2 max-h-[calc(85vh-80px)] mt-4 overscroll-contain"
+              style={{ overscrollBehavior: "contain" }}
+            >
+              {/* Index number */}
+              <div className="text-7xl font-black text-white/[0.08] mb-6">
+                0{index + 1}
+              </div>
 
             {/* Content */}
             <div>
@@ -364,6 +374,7 @@ function ExpandedModal({ project, index, isOpen, onClose, transparentSpider }) {
                 )}
               </div>
             </div>
+          </div>
           </motion.div>
         </>
       )}
@@ -376,7 +387,9 @@ const Projects = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const transparentSpider = useTransparentSpider();
   const targetRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  );
 
   useEffect(() => {
     const checkMobile = () => {
