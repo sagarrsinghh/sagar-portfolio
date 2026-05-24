@@ -31,7 +31,15 @@ import VideoStory from "./sections/VideoStory";
 
 function App() {
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    if (typeof window !== "undefined") {
+      const hasPlayed = sessionStorage.getItem("sagar_intro_played");
+      if (hasPlayed === "true") {
+        return false;
+      }
+    }
+    return true;
+  });
   const [storm, setStorm] = useState(false);
   const [lightningFlash, setLightningFlash] = useState(false);
 
@@ -81,7 +89,14 @@ function App() {
     >
 
       {/* LOADER */}
-      {loading && <Loader onComplete={() => setLoading(false)} />}
+      {loading && (
+        <Loader 
+          onComplete={() => {
+            sessionStorage.setItem("sagar_intro_played", "true");
+            setLoading(false);
+          }} 
+        />
+      )}
 
       {/* PORTFOLIO STATE TRANSITION CURTAIN */}
       <WebCurtain isTransitioning={isTransitioning} activePortfolio={activePortfolio} />

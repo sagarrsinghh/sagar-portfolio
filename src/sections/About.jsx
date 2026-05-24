@@ -101,7 +101,7 @@ const About = () => {
               text-lg
             "
           >
-            Every hero has an origin story. Mine started with a blank screen and a burning question — what if software could feel alive? I'm Sagar, a Full Stack Developer who builds digital experiences that don't just work — they move, they breathe, they hit. With React on the front and NestJS holding the back, I architect systems that scale and interfaces that stick. Systems. Zero boring UIs. I don't write code. I pull threads.
+            Every hero has an origin story. Mine started with a blank screen and a burning question — what if software could feel alive? I'm Sagar, a Full Stack Developer who builds digital experiences that don't just work — they move, they breathe, they hit. With React on the front and NestJS holding the back, I architect systems that scale and interfaces that stick. Zero boring UIs. I don't write code. I pull threads.
           </p>
           <p
             className="
