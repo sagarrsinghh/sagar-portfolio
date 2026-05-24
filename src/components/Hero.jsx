@@ -158,8 +158,12 @@ const Hero = ({ onTogglePortfolio }) => {
           <motion.div
             className="
               relative
-              w-[320px]
-              h-[420px]
+              w-[85vw]
+              max-w-[320px]
+              h-[112vw]
+              max-h-[420px]
+              sm:w-[320px]
+              sm:h-[420px]
               md:w-[480px]
               md:h-[75vh]
               overflow-hidden

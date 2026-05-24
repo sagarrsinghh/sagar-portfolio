@@ -3,15 +3,16 @@
 html.lenis, html {
   height: auto !important;
   scroll-behavior: auto !important;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
   margin:0;
   padding:0;
 
-  /* clip does NOT create a new scroll container, so position:sticky works.
-     hidden would break sticky by creating a new overflow context. */
-  overflow-x: clip;
+  max-width: 100vw;
+  overflow-x: hidden;
 
   background:black;
   color:white;
