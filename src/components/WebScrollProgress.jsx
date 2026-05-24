@@ -27,6 +27,8 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
   const [isAtTop, setIsAtTop] = useState(true);
   const [pullProgress, setPullProgress] = useState(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 768 : false);
+  const [isIntroDismissed, setIsIntroDismissed] = useState(false);
 
   useEffect(() => {
     setIsTouchDevice(
@@ -34,8 +36,13 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
       "ontouchstart" in window ||
       navigator.maxTouchPoints > 0
     );
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
+      checkMobile();
     };
     const handleScroll = () => {
       setIsAtTop(window.scrollY < 8);
@@ -227,8 +234,15 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
       style={{ perspective: "1000px" }}
     >
       {/* FLOATING INTRO HELPER BADGE (Pulsing notifier, visible by default, clickable fallback) */}
-      {isAtTop && (
+      {isAtTop && !isIntroDismissed && (
         <motion.div
+          drag={isMobile ? "x" : false}
+          dragConstraints={{ left: -160, right: 160 }}
+          onDragEnd={(e, info) => {
+            if (Math.abs(info.offset.x) > 60) {
+              setIsIntroDismissed(true);
+            }
+          }}
           style={{
             opacity: introOpacity,
             scale: introScale,
@@ -243,10 +257,14 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
               ease: "easeInOut"
             }
           }}
-          onClick={onTogglePortfolio}
-          className="absolute right-8 sm:right-14 top-8 pointer-events-auto cursor-pointer flex flex-col items-end z-50 group select-none"
+          onClick={(e) => {
+            // Avoid triggering on swipe release
+            if (isMobile) return;
+            onTogglePortfolio();
+          }}
+          className="absolute right-8 sm:right-14 top-8 pointer-events-auto cursor-pointer flex flex-col items-end z-50 group select-none touch-pan-y"
         >
-          <div className="bg-black/95 backdrop-blur-md border border-red-500/40 rounded-xl p-2.5 sm:p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] hover:shadow-[0_0_35px_rgba(239,68,68,0.5)] hover:border-red-500/80 transition-all duration-300 flex flex-col items-end gap-1.5 sm:gap-2 font-mono tracking-wider w-[185px] sm:w-[210px] border-r-4 border-r-red-500">
+          <div className="bg-black/95 backdrop-blur-md border border-red-500/40 rounded-xl p-2.5 sm:p-3.5 shadow-[0_0_25px_rgba(239,68,68,0.25)] hover:shadow-[0_0_35px_rgba(239,68,68,0.5)] hover:border-red-500/80 transition-all duration-300 flex flex-col items-end gap-1.5 sm:gap-2 font-mono tracking-wider w-[185px] sm:w-[210px] border-r-4 border-r-red-500 cursor-grab active:cursor-grabbing">
 
             {/* REC label */}
             <div className="flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-[9px] font-black text-red-400 uppercase tracking-widest animate-pulse">
@@ -279,7 +297,7 @@ const WebScrollProgress = ({ activePortfolio = "tech", onTogglePortfolio }) => {
 
             {/* Footer hint */}
             <div className="text-[7.5px] sm:text-[8px] text-neutral-400 text-right uppercase font-medium tracking-wider">
-              ⚡ Or tap bubble to swing
+              {isMobile ? "👈 Swipe card to dismiss 👈" : "⚡ Or tap bubble to swing"}
             </div>
           </div>
           
