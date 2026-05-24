@@ -7,7 +7,7 @@ Developed by **Sagar Singh** as a showcase of creative coding and cinematic vide
 ---
 
 ## 🚀 Live Demo & Portals
-*   **Live Portfolio**: *[Deploying to Vercel]*
+*   **Live Portfolio**: [vercel.com/sagarrsinghs-projects/sgrportfolio](https://sgrportfolio.vercel.app/)
 *   **GitHub Repository**: [github.com/sagarrsinghh/sagar-portfolio](https://github.com/sagarrsinghh/sagar-portfolio)
 
 ---
